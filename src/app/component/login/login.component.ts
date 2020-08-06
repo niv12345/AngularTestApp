@@ -17,18 +17,18 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
 
-  constructor( private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService:ApiService) {
-     }
+    private apiService: ApiService) {
+  }
 
   ngOnInit(): void {
 
     this.loginForm = this.formBuilder.group({
-        username :['',Validators.required],
-        password :['',Validators.required],
-        remPassword :[false, Validators.requiredTrue]
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      remPassword: [false, Validators.requiredTrue]
     });
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -39,25 +39,25 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     // stop here if form is invalid
     if (this.loginForm.invalid) {
-        return;
+      return;
     }
 
     this.loading = true;
-   
-    this.apiService.login(this.f.username.value, this.f.password.value)  
-    .pipe(first())     
-        .subscribe(
-            data => {             
-             
-                this.router.navigate(['/']);
-                
-            },
-            error => {
-                this.error = error;
-                this.loading = false;
-                
-            });
-          
-}
+
+    this.apiService.login(this.f.username.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+
+          this.router.navigate(['/']);
+
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+
+        });
+
+  }
 
 }

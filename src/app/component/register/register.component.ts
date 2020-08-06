@@ -11,15 +11,15 @@ import { first } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
 
-    registerForm: FormGroup;
-    loading = false;
-    submitted = false;
+  registerForm: FormGroup;
+  loading = false;
+  submitted = false;
 
-  constructor(   
+  constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private apiService:ApiService) { 
-     
+    private apiService: ApiService) {
+
   }
 
   ngOnInit(): void {
@@ -29,57 +29,58 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       cpassword: ['', Validators.required],
-      acceptTerms: [false, Validators.requiredTrue]},
+      acceptTerms: [false, Validators.requiredTrue]
+    },
       {
         validator: this.MustMatch('password', 'cpassword')
-    
-  });
+
+      });
   }
   get f() { return this.registerForm.controls; }
-  
+
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
-        const control = formGroup.controls[controlName];
-        const matchingControl = formGroup.controls[matchingControlName];
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
 
-        if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-            // return if another validator has already found an error on the matchingControl
-            return;
-        }
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        // return if another validator has already found an error on the matchingControl
+        return;
+      }
 
-        // set error on matchingControl if validation fails
-        if (control.value !== matchingControl.value) {
-            matchingControl.setErrors({ mustMatch: true });
-        } else {
-            matchingControl.setErrors(null);
-        }
+      // set error on matchingControl if validation fails
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     }
-}
+  }
 
   onSubmit() {
     this.submitted = true;
 
-  
+
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-        return;
+      return;
     }
-   // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
     this.loading = true;
     this.apiService.register(this.registerForm.value)
-        .pipe(first())
-        .subscribe(
-            data => {          
-              if(data==null){
-                this.loading = false;
-             
-                this.router.navigate(['/login']);
-            }
-            },
-            error => {              
-                this.loading = false;
-            });
-}
+      .pipe(first())
+      .subscribe(
+        data => {
+          if (data == null) {
+            this.loading = false;
+
+            this.router.navigate(['/login']);
+          }
+        },
+        error => {
+          this.loading = false;
+        });
+  }
 
 }

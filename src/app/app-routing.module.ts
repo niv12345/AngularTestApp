@@ -8,11 +8,11 @@ import { HomeComponent } from './component/home/home.component';
 
 
 const routes: Routes = [
-  { path: '',  component:HomeComponent, canActivate: [AuthGaurdService] },
-  { path:'login' , component: LoginComponent },
-  { path:'register', component: RegisterComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGaurdService] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
- 
+
 ];
 
 @NgModule({
@@ -20,4 +20,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LoginComponent,HeaderComponent,RegisterComponent,HomeComponent]
+export const routingComponents = [LoginComponent, HeaderComponent, RegisterComponent, HomeComponent]
