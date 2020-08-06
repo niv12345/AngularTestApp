@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+ 
+ <span>LOGO</span>
+ <span class="example-spacer"></span>
+ <div *ngIf="!isLogin">
+ <a mat-flat-button color="primary" routerLink="login">Login</a> |
+ <a mat-flat-button color="primary" routerLink="register">Register</a>
+</div>
+<div *ngIf="isLogin">
+    <h2>Welcome {{currentUser}}</h2>
+</div>
+
+</mat-toolbar>

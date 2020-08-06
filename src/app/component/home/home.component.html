@@ -1,0 +1,89 @@
+
+    <div class="row h-100">
+
+      <div class="col-md-3 h-100 sidnav1">
+     <mat-form-field>
+         <mat-label>Filter</mat-label>
+         <input matInput (keyup)="applyFilter($event)" [formControl]="" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <br>
+        <mat-list>
+          <mat-list-item *ngFor="let item of tempdata" (click)="onClickPost(item)">
+            <p mat-line>{{item.title  | slice:0:40  }}</p>
+            <mat-action-list>
+              <mat-icon aria-hidden="false" aria-label="Example clear icon" (click)="onClickDelete(postData.id)">clear</mat-icon>
+            </mat-action-list>
+            <mat-divider></mat-divider>
+          </mat-list-item>          
+         
+   
+         
+        </mat-list>
+ 
+      </div>
+      <div class=" col-md-8 h-50">
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Add POST
+              </mat-panel-title>
+             
+            </mat-expansion-panel-header>
+            <form [formGroup]="form" >
+            <mat-form-field class="example-full-width">
+              <mat-label>Post Title</mat-label>
+              <textarea matInput id="posttitle" formControlName="title"> </textarea>
+              <input matInput>
+            </mat-form-field>
+        
+            <mat-form-field class="example-full-width">
+              <mat-label>Post Description</mat-label>
+              <textarea matInput id="postbody" formControlName="body"> </textarea>
+            </mat-form-field>
+            <button  mat-button (click)="onClickSave()">SAVE</button>
+        </form>
+          </mat-expansion-panel>    
+        
+        
+        </mat-accordion>
+        <br>
+        <form [formGroup]="form" *ngIf="postData">
+        <mat-card class="example-card" *ngIf="isShowCard " >
+          <mat-card-header >           
+            <mat-card-title *ngIf="isShow">{{postData.title}}</mat-card-title>
+            <p *ngIf="!isShow">
+              <mat-form-field class="example-full-width">                
+                <textarea matInput id="posttitle" formControlName="title"> {{postData.title}}</textarea>
+              </mat-form-field>
+            </p>
+            <mat-card-subtitle >{{postData.id}}</mat-card-subtitle>
+          
+          </mat-card-header>
+         
+          <mat-card-content>
+            <p *ngIf="isShow ">
+             {{postData.body}}
+            </p>
+            <p *ngIf="!isShow">
+              <mat-form-field class="example-full-width">                
+                <textarea matInput id="postbody" formControlName="body"> {{postData.body}}</textarea>
+              </mat-form-field>
+            </p>
+         
+          </mat-card-content>
+          <mat-card-actions>
+           
+            <button *ngIf="isShow " mat-button (click)="onClickEdit()">EDIT</button>
+            <button *ngIf="!isShow " mat-button (click)="onClickUpdate()">SAVE</button>
+            
+          </mat-card-actions>
+        </mat-card>
+      </form>
+
+     
+      
+      </div>
+    
+    </div>
+  
