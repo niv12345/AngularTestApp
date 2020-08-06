@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   isShow: boolean = true;
   isAdd: boolean = true;
   form: FormGroup;
+  addForm: FormGroup;
   isShowCard: boolean = false;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   constructor(private myService: ApiService,
@@ -23,6 +24,13 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.getPostList();
     this.form = this.fb.group({
+      title: [''],
+      id: [''],
+      body: [''],
+      userId: ['']
+
+    })
+    this.addForm = this.fb.group({
       title: [''],
       id: [''],
       body: [''],
@@ -75,7 +83,7 @@ export class HomeComponent implements OnInit {
   }
   onClickSave() {
     let userId;
-    let newPost = this.form.value;
+    let newPost = this.addForm.value;
     let len = Object.keys(this.data).length;
     newPost.id = len + 1;
     this.myService.currentUser.subscribe(res => {
@@ -102,6 +110,13 @@ export class HomeComponent implements OnInit {
     this.myService.deletePost(id).subscribe(res => {
       this.getPostList();
     });
+  }
+  onClickCl(){
+    this.addForm.reset();
+    this.accordion.closeAll();
+  }
+  onClickCancel(){
+    this.isShow = !this.isShow;
   }
 
 }
