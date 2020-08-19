@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, AfterContentChecked, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, AfterContentChecked, AfterContentInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 
 @Component({
@@ -6,12 +6,15 @@ import { ApiService } from '../../service/api.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, AfterContentInit {
+export class HeaderComponent implements OnInit, AfterContentInit ,AfterViewInit,AfterContentChecked{
   currentUser;
   isLogin: boolean;
+  name;
+  @ViewChild('myTemplateRef') myTemplate;
   constructor(private myApi: ApiService) { }
 
   ngOnInit(): void {
+this.name = "NIV"
   }
   
   ngAfterContentInit(): void {
@@ -21,5 +24,24 @@ export class HeaderComponent implements OnInit, AfterContentInit {
         this.currentUser = res.name;
       }
     });
+  }
+  ngAfterContentChecked(): void {
+    this.isLogin = this.myApi.isLoggedIn();
+    this.myApi.currentUser.subscribe(res => {
+      if (res) {
+        this.currentUser = res.name;
+      }
+    });
+  }
+  ngAfterViewInit(): void {
+       
+    this.isLogin = this.myApi.isLoggedIn();
+    this.myApi.currentUser.subscribe(res => {
+      if (res) {
+       
+        this.myTemplate = res.name;
+      }
+    });
+    
   }
 }
